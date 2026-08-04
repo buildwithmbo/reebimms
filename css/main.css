@@ -54,7 +54,8 @@ p {
   --colour-muted: #6b6b6b;
   --colour-white: #ffffff;
 
-  --font-display: "Poppins", sans-serif;
+  /* Michroma ships weight 400 only — heading rules don't set font-weight. */
+  --font-display: "Michroma", sans-serif;
   --font-body: "Inter", sans-serif;
 
   --space-s: 0.5rem;
@@ -74,6 +75,7 @@ p {
 
 body {
   font-family: var(--font-body);
+  font-weight: 300;
   color: var(--colour-ink);
   background: var(--colour-bg);
   line-height: 1.5;
@@ -168,7 +170,6 @@ h3 {
   color: var(--colour-white);
   text-decoration: none;
   font-family: var(--font-display);
-  font-weight: 600;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   font-size: 0.9rem;
@@ -209,10 +210,33 @@ h3 {
   color: inherit;
 }
 
-.site-footer__heading {
+.site-footer__col {
+  display: flex;
+  flex-direction: column;
+}
+
+.site-footer__col p + p {
+  margin-block-start: var(--space-m);
+}
+
+.site-footer__heading,
+.site-footer__link {
   font-family: var(--font-display);
-  font-size: 1rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.site-footer__heading {
   margin-block-end: var(--space-s);
+}
+
+.site-footer__link {
+  text-decoration: none;
+}
+
+.site-footer__link:hover {
+  text-decoration: underline;
 }
 
 .site-footer__instagram {
@@ -229,10 +253,17 @@ h3 {
   height: auto;
 }
 
-.site-footer__instagram svg {
+.site-footer__instagram-icon {
   position: absolute;
   inset-block-end: var(--space-s);
   inset-inline-end: var(--space-s);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 8px;
+  background: var(--colour-bg-near-black);
   color: var(--colour-white);
 }
 
@@ -241,7 +272,10 @@ h3 {
   flex-wrap: wrap;
   justify-content: space-between;
   gap: var(--space-s);
-  font-size: 0.85rem;
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
   color: var(--colour-muted);
   padding-block-start: var(--space-l);
   border-block-start: 1px solid rgba(255, 255, 255, 0.15);
@@ -254,6 +288,22 @@ h3 {
 @media (min-width: 768px) {
   .site-footer {
     grid-template-columns: 2fr 1fr 1fr;
+  }
+
+  /* Span the full row and reuse the parent's column template so
+     "Site by BLKSWAN" lines up under "Privacy", per the mock. */
+  .site-footer__bottom {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+  }
+
+  .site-footer__bottom p:first-child {
+    grid-column: 1;
+  }
+
+  .site-footer__bottom p:last-child {
+    grid-column: 2;
   }
 }
 
@@ -357,7 +407,6 @@ h3 {
   letter-spacing: 0.2em;
   text-transform: uppercase;
   font-size: 0.85rem;
-  font-weight: 600;
 }
 
 .hero__content {
@@ -372,7 +421,6 @@ h3 {
 
 .hero__heading {
   font-family: var(--font-display);
-  font-weight: 600;
   font-size: 2rem;
   line-height: 1.1;
 }
@@ -635,7 +683,12 @@ h3 {
 */
 
 .process {
-  background: var(--colour-bg-near-black);
+  background-color: var(--colour-bg-near-black);
+  /* Photo is already near-black; a light scrim keeps card text legible without hiding it. */
+  background-image: linear-gradient(rgba(5, 5, 5, 0.6), rgba(5, 5, 5, 0.6)),
+    url("/images/process-background.jpg");
+  background-size: cover;
+  background-position: center;
   color: var(--colour-white);
   padding: var(--space-xl) var(--space-m);
 }
@@ -668,7 +721,10 @@ h3 {
   border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: var(--radius-card);
   padding: var(--space-m) var(--space-l);
-  background: rgba(255, 255, 255, 0.04);
+  /* Darker + blurred backing keeps text legible over the busy background photo. */
+  background: rgba(5, 5, 5, 0.6);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 
 .process-step__title {
@@ -777,7 +833,11 @@ h3 {
 */
 
 .features {
-  background: var(--colour-bg-near-black);
+  background-color: var(--colour-bg-near-black);
+  background-image: linear-gradient(rgba(5, 5, 5, 0.6), rgba(5, 5, 5, 0.6)),
+    url("/images/features-background.jpg");
+  background-size: cover;
+  background-position: center;
   color: var(--colour-white);
   padding: var(--space-xl) var(--space-m);
 }
@@ -810,6 +870,10 @@ h3 {
   border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: var(--radius-card);
   padding: var(--space-l);
+  /* Darker + blurred backing keeps text legible over the busy background photo. */
+  background: rgba(5, 5, 5, 0.6);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 
 .feature-card__title {

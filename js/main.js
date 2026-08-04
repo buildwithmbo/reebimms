@@ -21,3 +21,86 @@ if (revealTargets.length > 0) {
     observer.observe(target);
   }
 }
+
+// Sticky nav: hidden while the hero is in view, revealed once it
+// scrolls past (see .site-header rules in main.css).
+const siteHeader = document.querySelector('.site-header');
+const hero = document.querySelector('.hero');
+
+if (siteHeader && hero) {
+  const onHeroIntersect = (entries) => {
+    const heroVisible = entries[0].isIntersecting;
+    siteHeader.classList.toggle('is-visible', !heroVisible);
+  };
+
+  new IntersectionObserver(onHeroIntersect, { threshold: 0 }).observe(hero);
+}
+
+// Before/after comparison sliders: drag, touch, or arrow keys move the
+// divider. Falls back to the CSS default (50/50 split) without JS.
+const setSliderPosition = (container, divider, afterImage, percent) => {
+  const clamped = Math.min(100, Math.max(0, percent));
+  divider.style.insetInlineStart = `${clamped}%`;
+  afterImage.style.clipPath = `inset(0 0 0 ${clamped}%)`;
+  divider.setAttribute('aria-valuenow', String(Math.round(clamped)));
+};
+
+const initBeforeAfter = (container) => {
+  const divider = container.querySelector('[data-before-after-divider]');
+  const afterImage = container.querySelector('.before-after__image--after');
+  if (!divider || !afterImage) return;
+
+  const moveToClientX = (clientX) => {
+    const rect = container.getBoundingClientRect();
+    const percent = ((clientX - rect.left) / rect.width) * 100;
+    setSliderPosition(container, divider, afterImage, percent);
+  };
+
+  const onPointerMove = (event) => moveToClientX(event.clientX);
+  const stopDragging = () => {
+    document.removeEventListener('pointermove', onPointerMove);
+    document.removeEventListener('pointerup', stopDragging);
+  };
+
+  divider.addEventListener('pointerdown', (event) => {
+    event.preventDefault();
+    document.addEventListener('pointermove', onPointerMove);
+    document.addEventListener('pointerup', stopDragging);
+  });
+
+  divider.addEventListener('keydown', (event) => {
+    const current = Number(divider.getAttribute('aria-valuenow'));
+    if (event.key === 'ArrowLeft') {
+      setSliderPosition(container, divider, afterImage, current - 5);
+    } else if (event.key === 'ArrowRight') {
+      setSliderPosition(container, divider, afterImage, current + 5);
+    } else {
+      return;
+    }
+    event.preventDefault();
+  });
+};
+
+for (const container of document.querySelectorAll('[data-before-after]')) {
+  initBeforeAfter(container);
+}
+
+// Booking form: no submission handler exists yet (see DESIGN.md,
+// Booking section). Validate client-side and point Gloria at the two
+// working contact methods instead of pretending this succeeded.
+const bookingForm = document.querySelector('[data-booking-form]');
+
+if (bookingForm) {
+  const statusMessage = bookingForm.querySelector('[data-booking-status]');
+
+  bookingForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    if (!bookingForm.checkValidity()) {
+      bookingForm.reportValidity();
+      return;
+    }
+    statusMessage.textContent =
+      "Online booking isn't live yet — call 07709 876567 or use WhatsApp/SMS on the right and we'll sort your booking directly.";
+    statusMessage.hidden = false;
+  });
+}

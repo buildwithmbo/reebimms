@@ -1,0 +1,8 @@
+<!-- Placeholder recreation of the client's shield + steering-wheel mark.
+     [CONFIRM: replace with the real vector logo file.] -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" role="img" aria-hidden="true">
+  <path d="M16 2 4 6v9c0 7.2 5.1 12.4 12 15 6.9-2.6 12-7.8 12-15V6L16 2Z" fill="#ffffff"/>
+  <circle cx="16" cy="15.5" r="7" fill="none" stroke="#050505" stroke-width="1.6"/>
+  <circle cx="16" cy="15.5" r="1.8" fill="#050505"/>
+  <path d="M16 15.5 16 10.5M16 15.5 20.33 18M16 15.5 11.67 18" stroke="#050505" stroke-width="1.6" stroke-linecap="round"/>
+</svg>

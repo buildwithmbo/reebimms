@@ -202,7 +202,9 @@ h3 {
   background: var(--colour-bg-navy);
   color: var(--colour-white);
   padding: var(--space-xl) var(--space-m) var(--space-l);
-  display: grid;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: var(--space-l);
 }
 
@@ -213,50 +215,23 @@ h3 {
 .site-footer__col {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
 .site-footer__col p + p {
   margin-block-start: var(--space-m);
 }
 
-.site-footer__heading,
-.site-footer__link {
+.site-footer__heading {
   font-family: var(--font-display);
   font-size: 0.85rem;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-}
-
-.site-footer__heading {
   margin-block-end: var(--space-s);
 }
 
-.site-footer__link {
-  text-decoration: none;
-}
-
-.site-footer__link:hover {
-  text-decoration: underline;
-}
-
-.site-footer__instagram {
-  position: relative;
-  display: block;
-  width: 100%;
-  max-width: 305px;
-  border-radius: var(--radius-card);
-  overflow: hidden;
-}
-
-.site-footer__instagram img {
-  width: 100%;
-  height: auto;
-}
-
 .site-footer__instagram-icon {
-  position: absolute;
-  inset-block-end: var(--space-s);
-  inset-inline-end: var(--space-s);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -265,9 +240,13 @@ h3 {
   border-radius: 8px;
   background: var(--colour-bg-near-black);
   color: var(--colour-white);
+  margin-block-start: var(--space-m);
 }
 
 .site-footer__bottom {
+  /* Stretched to the footer's full width so the divider and left/right
+     credit split still span it, even though the column above is centred. */
+  align-self: stretch;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -285,26 +264,12 @@ h3 {
   margin: 0;
 }
 
-@media (min-width: 768px) {
-  .site-footer {
-    grid-template-columns: 2fr 1fr 1fr;
-  }
+.site-footer__bottom a {
+  text-decoration: none;
+}
 
-  /* Span the full row and reuse the parent's column template so
-     "Site by BLKSWAN" lines up under "Privacy", per the mock. */
-  .site-footer__bottom {
-    grid-column: 1 / -1;
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
-  }
-
-  .site-footer__bottom p:first-child {
-    grid-column: 1;
-  }
-
-  .site-footer__bottom p:last-child {
-    grid-column: 2;
-  }
+.site-footer__bottom a:hover {
+  text-decoration: underline;
 }
 
 /*

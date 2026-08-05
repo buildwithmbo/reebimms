@@ -255,7 +255,6 @@ h3 {
   width: 2.25rem;
   height: 2.25rem;
   color: var(--colour-white);
-  margin-block-start: var(--space-m);
 }
 
 .site-footer__bottom {
@@ -289,9 +288,8 @@ h3 {
 }
 
 @media (min-width: 768px) {
-  /* Copyright flush left, credit line true-centred in its own track —
-     the empty 1fr on the right balances the left column so centring
-     isn't thrown off by the copyright text's width. */
+  /* Copyright flush left, credit line true-centred in its own track,
+     Instagram icon flush right. */
   .site-footer__bottom {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
@@ -299,13 +297,18 @@ h3 {
     text-align: left;
   }
 
-  .site-footer__bottom p:first-child {
+  .site-footer__copyright {
     grid-column: 1;
   }
 
-  .site-footer__bottom p:last-child {
+  .site-footer__credit {
     grid-column: 2;
     text-align: center;
+  }
+
+  .site-footer__instagram-icon {
+    grid-column: 3;
+    justify-self: end;
   }
 }
 

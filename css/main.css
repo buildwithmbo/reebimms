@@ -440,7 +440,7 @@ h3 {
   border-radius: 50%;
   background: var(--colour-white);
   color: var(--colour-ink);
-  border: 1px solid var(--colour-ink);
+  border: 1px dashed var(--colour-ink);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -462,6 +462,8 @@ h3 {
 
   .hero__heading {
     font-size: 3.25rem;
+    /* Constrained so the heading breaks onto two lines ("...Valeting" / "& Detailing"), as in the mock, rather than spanning full width. */
+    max-width: 660px;
   }
 }
 

@@ -417,7 +417,9 @@ h3 {
 .hero__content {
   position: relative;
   z-index: 2;
-  margin-block-start: auto;
+  /* Equal auto margins centre this vertically in the space left below
+     the logo, rather than pinning it to the hero's bottom edge. */
+  margin-block: auto;
   padding: var(--space-l) var(--space-m);
   display: flex;
   flex-direction: column;

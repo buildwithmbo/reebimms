@@ -18,10 +18,13 @@
         Ree Bimms
       </a>
       <ul class="site-header__links">
-        <li><a href="#services">Services</a></li>
-        <li><a href="#pricing">Pricing</a></li>
-        <li><a href="#book">Book</a></li>
+        <li><a class="nav-link" href="#services">Services</a></li>
+        <li><a class="nav-link" href="#gallery">Gallery</a></li>
+        <li><a class="nav-link" href="#process">Process</a></li>
+        <li><a class="nav-link" href="#pricing">Pricing</a></li>
+        <li><a class="nav-link" href="#why-us">Why us</a></li>
       </ul>
+      <a class="button button--fill site-header__cta" href="#book">Book a clean <span class="button__arrow" aria-hidden="true">&rarr;</span></a>
     </nav>
   </header>
 
@@ -37,7 +40,7 @@
       <div class="hero__content">
         <h1 class="hero__heading">Mobile Car Valeting &amp; Detailing</h1>
         <p class="hero__body">Ree Bimms brings reliable mobile car valeting to your home or workplace.</p>
-        <a class="button button--fill hero__cta" href="#book">Book now</a>
+        <a class="button button--fill hero__cta" href="#book">Book now <span class="button__arrow" aria-hidden="true">&rarr;</span></a>
       </div>
     </section>
 
@@ -52,57 +55,57 @@
     </section>
 
     <!-- Services -->
-    <section class="services" id="services">
-      <div class="services__intro">
+    <section class="services section" id="services">
+      <div class="services__intro section-intro">
         <h2 class="services__heading">Choose the clean your car needs</h2>
         <p class="services__subhead">Not sure which service to book? Send us a few photos and we'll recommend the right option before any work starts.</p>
       </div>
       <ul class="service-cards">
-        <li class="service-card">
+        <li class="service-card card card--surface">
           <div class="service-card__text">
             <h3 class="service-card__title">Exterior Wash</h3>
             <p class="service-card__price">From £25&ndash;£35</p>
             <p class="service-card__description">For regular upkeep when the outside needs a proper clean.</p>
             <p class="service-card__meta">Exterior hand wash, wheels, tyres, rinse, dry, and quick finish.</p>
-            <a class="button button--outline" href="#book">Book exterior wash <span aria-hidden="true">&rarr;</span></a>
+            <a class="button button--outline" href="#book">Book exterior wash <span class="button__arrow" aria-hidden="true">&rarr;</span></a>
           </div>
           <img class="service-card__image" src="/images/service-exterior-wash.jpg" width="325" height="363" alt="Close-up of a blue car's headlight being hand-washed with soap suds.">
         </li>
-        <li class="service-card">
+        <li class="service-card card card--surface">
           <div class="service-card__text">
             <h3 class="service-card__title">Mini Valet</h3>
             <p class="service-card__price">From £35&ndash;£50</p>
             <p class="service-card__description">For cars that need a tidy-up inside and out.</p>
             <p class="service-card__meta">Exterior wash, wheels, vacuum, dashboard wipe-down, windows, and door shuts.</p>
-            <a class="button button--outline" href="#book">Book mini valet <span aria-hidden="true">&rarr;</span></a>
+            <a class="button button--outline" href="#book">Book mini valet <span class="button__arrow" aria-hidden="true">&rarr;</span></a>
           </div>
           <img class="service-card__image" src="/images/service-mini-valet.jpg" width="325" height="363" alt="Cleaned car interior showing steering wheel and centre console.">
         </li>
-        <li class="service-card service-card--reverse">
+        <li class="service-card card card--surface service-card--reverse">
           <img class="service-card__image" src="/images/service-full-valet.jpg" width="347" height="366" alt="Hand polishing a car headlight with a yellow applicator pad.">
           <div class="service-card__text">
             <h3 class="service-card__title">Full Valet</h3>
             <p class="service-card__price">From £75&ndash;£130</p>
             <p class="service-card__description">For cars that need a proper reset.</p>
             <p class="service-card__meta">Exterior wash, deep interior clean, seats/carpets, glass, trims, wheels, and protective finish.</p>
-            <a class="button button--outline" href="#book">Book full valet <span aria-hidden="true">&rarr;</span></a>
+            <a class="button button--outline" href="#book">Book full valet <span class="button__arrow" aria-hidden="true">&rarr;</span></a>
           </div>
         </li>
-        <li class="service-card service-card--reverse">
+        <li class="service-card card card--surface service-card--reverse">
           <img class="service-card__image" src="/images/service-family-deep-clean.jpg" width="347" height="366" alt="Rear of a dark red car being rinsed with soapy water.">
           <div class="service-card__text">
             <h3 class="service-card__title">Family &amp; Pet Deep Clean</h3>
             <p class="service-card__price">From £100&ndash;£160</p>
             <p class="service-card__description">For crumbs, dog hair, muddy boots, school-run mess, and real-life family cars.</p>
             <p class="service-card__meta">Deep interior clean, pet hair removal, stain attention, odour treatment, and full exterior clean.</p>
-            <a class="button button--outline" href="#book">Book family valet <span aria-hidden="true">&rarr;</span></a>
+            <a class="button button--outline" href="#book">Book family valet <span class="button__arrow" aria-hidden="true">&rarr;</span></a>
           </div>
         </li>
       </ul>
     </section>
 
     <!-- Gallery: before/after -->
-    <section class="gallery" aria-label="Before and after results">
+    <section class="gallery section" id="gallery" aria-label="Before and after results">
       <!-- [CONFIRM: replace with real ReeBimms before/after photo] -->
       <div class="before-after before-after--wide" data-before-after>
         <img class="before-after__image" src="/images/gallery-amg-gt.jpg" width="1360" height="655" alt="Grey sports car, before and after detailing.">
@@ -132,29 +135,29 @@
     </section>
 
     <!-- Process -->
-    <section class="process">
-      <div class="process__intro">
+    <section class="process section" id="process">
+      <div class="process__intro section-intro">
         <h2 class="process__heading">What happens, start to finish</h2>
         <p class="process__subhead">Booking a valet should not be a mystery. Here is exactly how it goes, every time.</p>
       </div>
       <ol class="process-steps">
-        <li class="process-step reveal">
+        <li class="process-step card card--dark reveal">
           <h3 class="process-step__title">Ring, or you book online</h3>
           <p class="process-step__body">Booking a valet should not be a mystery. Here is exactly how it goes, every time.</p>
         </li>
-        <li class="process-step reveal">
+        <li class="process-step card card--dark reveal">
           <h3 class="process-step__title">Get a booking confirmation</h3>
           <p class="process-step__body">A confirmed day and time comes back to you the same day, with the price agreed before anything starts.</p>
         </li>
-        <li class="process-step reveal">
+        <li class="process-step card card--dark reveal">
           <h3 class="process-step__title">Ree Bimms arrives with everything</h3>
           <p class="process-step__body">Water, power, products, cloths. All that is needed from you is room to work around the car.</p>
         </li>
-        <li class="process-step reveal">
+        <li class="process-step card card--dark reveal">
           <h3 class="process-step__title">Your car gets the time it needs</h3>
           <p class="process-step__body">Wheels first, paintwork by hand, interior last. Nothing is rushed to fit another job in behind yours.</p>
         </li>
-        <li class="process-step reveal">
+        <li class="process-step card card--dark reveal">
           <h3 class="process-step__title">Quality checks before you pay</h3>
           <p class="process-step__body">Walk round the car, check the interior. Anything missed gets put right there and then. Card or cash, whichever you prefer.</p>
         </li>
@@ -162,13 +165,13 @@
     </section>
 
     <!-- Pricing -->
-    <section class="pricing" id="pricing">
-      <div class="pricing__intro">
+    <section class="pricing section" id="pricing">
+      <div class="pricing__intro section-intro">
         <h2 class="pricing__heading">Pricing</h2>
         <p class="pricing__subhead">Final price depends on vehicle size, condition, and access. If anything needs to change, we confirm it with you before starting.</p>
       </div>
       <div class="price-tables">
-        <div class="price-table">
+        <div class="price-table card card--surface">
           <h3 class="price-table__title">Services</h3>
           <dl class="price-table__list">
             <div class="price-table__row"><dt>Exterior Wash</dt><dd>£25&ndash;£35</dd></div>
@@ -177,7 +180,7 @@
             <div class="price-table__row"><dt>Family or Deep Clean</dt><dd>£100&ndash;£160</dd></div>
           </dl>
         </div>
-        <div class="price-table">
+        <div class="price-table card card--surface">
           <h3 class="price-table__title">Add-ons</h3>
           <dl class="price-table__list">
             <div class="price-table__row"><dt>Pet hair removal</dt><dd>+£10&ndash;£20</dd></div>
@@ -191,22 +194,22 @@
     </section>
 
     <!-- Features -->
-    <section class="features">
-      <h2 class="features__heading">Built to fix what people hate about car valeting</h2>
+    <section class="features section" id="why-us">
+      <h2 class="features__heading section-intro">Built to fix what people hate about car valeting</h2>
       <ul class="feature-cards">
-        <li class="feature-card">
+        <li class="feature-card card card--dark">
           <h3 class="feature-card__title">Clear prices, no awkward surprises</h3>
           <p class="feature-card__body">You'll see the price range before you book. If your car needs extra work, we'll show you why and confirm the price before starting &mdash; no hidden charges, no pressure upsells.</p>
         </li>
-        <li class="feature-card">
+        <li class="feature-card card card--dark">
           <h3 class="feature-card__title">Trust before you hand over the keys</h3>
           <p class="feature-card__body">We display our insurance and DBS status clearly, so you know who is working on your car and what cover is in place. No guessing, no hoping for the best.</p>
         </li>
-        <li class="feature-card">
+        <li class="feature-card card card--dark">
           <h3 class="feature-card__title">Photo-confirmed quotes</h3>
           <p class="feature-card__body">For heavier jobs, we use photos to confirm the condition of your car and agree the work before we begin. What you see is what you pay.</p>
         </li>
-        <li class="feature-card">
+        <li class="feature-card card card--dark">
           <h3 class="feature-card__title">We respect your car and belongings</h3>
           <p class="feature-card__body">Seats, settings, and personal items are treated carefully. Our &ldquo;leave-it-as-found&rdquo; approach means your car is returned clean &mdash; not disrupted.</p>
         </li>
@@ -214,13 +217,13 @@
     </section>
 
     <!-- Booking -->
-    <section class="booking" id="book">
-      <div class="booking__intro">
+    <section class="booking section" id="book">
+      <div class="booking__intro section-intro">
         <h2 class="booking__heading">Book your valet</h2>
         <p class="booking__subhead">Choose whichever contact method is easiest for you below.</p>
       </div>
       <div class="booking-panels">
-        <div class="booking-panel">
+        <div class="booking-panel card card--surface">
           <!-- [CONFIRM: no submission handler yet — see DESIGN.md Booking section] -->
           <form class="booking-form" data-booking-form novalidate>
             <p class="booking-form__status" data-booking-status role="status" hidden></p>
@@ -244,21 +247,21 @@
                 <input id="email" name="email" type="email" autocomplete="email">
               </div>
             </div>
-            <button class="button button--fill" type="submit">Submit your details <span aria-hidden="true">&rarr;</span></button>
+            <button class="button button--fill" type="submit">Submit your details <span class="button__arrow" aria-hidden="true">&rarr;</span></button>
             <p class="booking-form__privacy">We respect your privacy. No spam, ever.</p>
           </form>
         </div>
-        <div class="booking-panel booking-panel--contact">
+        <div class="booking-panel card card--surface booking-panel--contact">
           <div class="contact-block">
             <h3 class="contact-block__title">Quick messaging <span class="contact-block__tag">(Fastest)</span></h3>
             <p>Click below to message us directly:</p>
-            <a class="button button--outline" href="https://wa.me/447709876567">Chat on WhatsApp <span aria-hidden="true">&rarr;</span></a>
-            <a class="button button--outline" href="sms:+447709876567">Text us (SMS) <span aria-hidden="true">&rarr;</span></a>
+            <a class="button button--outline" href="https://wa.me/447709876567">Chat on WhatsApp <span class="button__arrow" aria-hidden="true">&rarr;</span></a>
+            <a class="button button--outline" href="sms:+447709876567">Text us (SMS) <span class="button__arrow" aria-hidden="true">&rarr;</span></a>
           </div>
           <div class="contact-block">
             <h3 class="contact-block__title">Call us directly</h3>
             <p>Prefer to talk to a human right away?</p>
-            <p>Call us: <a href="tel:+447709876567">07709 876567</a><br>Operating hours: Mon&ndash;Sat, 8:00 AM &ndash; 6:00 PM</p>
+            <p>Call us: <a class="text-link" href="tel:+447709876567">07709 876567</a><br>Operating hours: Mon&ndash;Sat, 8:00 AM &ndash; 6:00 PM</p>
           </div>
         </div>
       </div>
@@ -269,12 +272,12 @@
   <footer class="site-footer">
     <div class="site-footer__col">
       <h2 class="site-footer__heading">Get in touch</h2>
-      <p>For customer support, email <a href="mailto:support@reebimms.co.uk">support@reebimms.co.uk</a></p>
+      <p>For customer support, email <a class="text-link text-link--on-dark" href="mailto:support@reebimms.co.uk">support@reebimms.co.uk</a></p>
       <p>Operating hours: Mon&ndash;Sat, 8:00 AM &ndash; 6:00 PM</p>
     </div>
     <div class="site-footer__bottom">
       <p class="site-footer__copyright">&copy; 2026 Ree Bimms</p>
-      <p class="site-footer__credit">Site by <a href="https://blkswan.co.uk/">BLKSWAN</a> &middot; <a href="/privacy">Privacy</a></p>
+      <p class="site-footer__credit">Site by <a class="text-link text-link--on-dark" href="https://blkswan.co.uk/">BLKSWAN</a> &middot; <a class="text-link text-link--on-dark" href="/privacy">Privacy</a></p>
       <a class="site-footer__instagram-icon" href="https://instagram.com/reebimms" aria-label="Ree Bimms on Instagram">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/>

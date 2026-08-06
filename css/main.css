@@ -105,6 +105,12 @@ h3 {
   line-height: 1.1;
 }
 
+/* No underline on any link, anywhere — per-component hover treatments
+   (nav-link, text-link, button) supply their own feedback instead. */
+a {
+  text-decoration: none;
+}
+
 :focus-visible {
   outline: 2px solid var(--colour-accent);
   outline-offset: 2px;
@@ -124,6 +130,25 @@ h3 {
   clip: rect(0 0 0 0);
   white-space: nowrap;
   border: 0;
+}
+
+/* Single source of truth for standard section spacing — change here,
+   every section using it changes together. Hero, trust strip, and
+   footer have genuinely different spacing so they don't use this. */
+.section {
+  padding-block: var(--space-xl);
+  padding-inline: var(--space-m);
+  /* Keeps jump-link targets clear of the fixed header on scroll. */
+  scroll-margin-block-start: var(--space-xl);
+}
+
+/* Single source of truth for section-heading measure — every H2 wraps
+   at the same width instead of each section picking its own. */
+.section-intro {
+  max-width: 55ch;
+  margin-inline: auto;
+  text-align: center;
+  margin-block-end: var(--space-l);
 }
 
 /* Reveal-on-scroll: static by default, animated only when JS opts in
@@ -174,7 +199,6 @@ h3 {
 .site-header__nav {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: var(--space-m);
   max-width: 1200px;
   margin-inline: auto;
@@ -185,34 +209,59 @@ h3 {
   align-items: center;
   gap: var(--space-s);
   color: var(--colour-white);
-  text-decoration: none;
   font-family: var(--font-display);
   letter-spacing: 0.05em;
   text-transform: uppercase;
   font-size: 0.9rem;
+  flex-shrink: 0;
 }
 
 .site-header__logo-mark {
   color: var(--colour-white);
 }
 
+/* Fills the space between logo and CTA; scrolls horizontally once the
+   five links don't fit, with a right-edge fade signalling there's more
+   — CSS-only, so the affordance works without JS. */
 .site-header__links {
+  flex: 1;
+  min-width: 0;
   display: flex;
   gap: var(--space-l);
   list-style: none;
   margin: 0;
   padding: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-mask-image: linear-gradient(to right, black calc(100% - 2rem), transparent 100%);
+  mask-image: linear-gradient(to right, black calc(100% - 2rem), transparent 100%);
 }
 
-.site-header__links a {
+.site-header__links::-webkit-scrollbar {
+  display: none;
+}
+
+@media (min-width: 700px) {
+  .site-header__links {
+    overflow-x: visible;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+}
+
+.nav-link {
+  display: inline-block;
   color: var(--colour-white);
-  text-decoration: none;
   font-family: var(--font-body);
   font-size: 0.9rem;
+  white-space: nowrap;
+  transition: letter-spacing 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 
-.site-header__links a:hover {
-  text-decoration: underline;
+.nav-link:hover,
+.nav-link:focus-visible {
+  letter-spacing: 0.04em;
+  opacity: 0.85;
 }
 
 .site-footer {
@@ -223,10 +272,6 @@ h3 {
   flex-direction: column;
   align-items: center;
   gap: var(--space-l);
-}
-
-.site-footer a {
-  color: inherit;
 }
 
 .site-footer__col {
@@ -279,14 +324,6 @@ h3 {
   margin: 0;
 }
 
-.site-footer__bottom a {
-  text-decoration: none;
-}
-
-.site-footer__bottom a:hover {
-  text-decoration: underline;
-}
-
 @media (min-width: 768px) {
   /* Copyright flush left, credit line true-centred in its own track,
      Instagram icon flush right. */
@@ -319,7 +356,6 @@ h3 {
 .button {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-s);
   border-radius: var(--radius-pill);
   padding: 0.75rem 1.5rem;
   font-family: var(--font-body);
@@ -327,7 +363,6 @@ h3 {
   font-weight: 600;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  text-decoration: none;
   cursor: pointer;
   border: 1.5px solid transparent;
   width: fit-content;
@@ -353,6 +388,83 @@ h3 {
 
 .button--fill:hover {
   filter: brightness(0.95);
+}
+
+/* Arrow is hidden and zero-width at rest, reveals on hover/focus across
+   every button — component-wide, not styled per instance. */
+.button__arrow {
+  display: inline-block;
+  width: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateX(-4px);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .button__arrow {
+    transition: width 0.25s ease-in-out, opacity 0.25s ease-in-out,
+      transform 0.25s ease-in-out, margin-inline-start 0.25s ease-in-out;
+  }
+}
+
+.button:hover .button__arrow,
+.button:focus-visible .button__arrow {
+  width: 1em;
+  opacity: 1;
+  transform: translateX(0);
+  margin-inline-start: var(--space-s);
+}
+
+/* .button--fill defaults to full-width for form contexts; the header
+   CTA should size to its own label instead — must be declared after
+   .button--fill to win the cascade (see .hero__cta for the same fix). */
+.site-header__cta {
+  flex-shrink: 0;
+  width: fit-content;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.75rem;
+}
+
+/*
+|| CARDS (shared across sections)
+*/
+
+.card {
+  border-radius: var(--radius-card);
+}
+
+.card--surface {
+  background: var(--colour-surface);
+}
+
+/* Darker + blurred backing keeps text legible over busy background
+   photos (process, features). */
+.card--dark {
+  background: rgba(5, 5, 5, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+/*
+|| LINKS (shared across sections)
+*/
+
+.text-link {
+  color: var(--colour-ink);
+  transition: opacity 0.2s ease-in-out;
+}
+
+.text-link:hover,
+.text-link:focus-visible {
+  opacity: 0.7;
+}
+
+/* Accent only where it passes 4.5:1 — it does on the near-black/navy
+   backgrounds this modifier is used on (~8:1 / ~4.7:1), fails on white
+   (~2.6:1), so plain .text-link keeps the ink colour there instead. */
+.text-link--on-dark {
+  color: var(--colour-accent);
 }
 
 /*
@@ -491,15 +603,7 @@ h3 {
 */
 
 .services {
-  padding: var(--space-xl) var(--space-m);
   background: var(--colour-bg);
-}
-
-.services__intro {
-  max-width: 55ch;
-  margin-inline: auto;
-  text-align: center;
-  margin-block-end: var(--space-l);
 }
 
 .services__heading {
@@ -530,8 +634,6 @@ h3 {
 }
 
 .service-card {
-  background: var(--colour-surface);
-  border-radius: var(--radius-card);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -599,7 +701,6 @@ h3 {
 
 .gallery {
   background: var(--gradient-navy-accent);
-  padding: var(--space-xl) var(--space-m);
   display: flex;
   flex-direction: column;
   gap: var(--space-m);
@@ -682,14 +783,6 @@ h3 {
   background-size: cover;
   background-position: center;
   color: var(--colour-white);
-  padding: var(--space-xl) var(--space-m);
-}
-
-.process__intro {
-  max-width: 55ch;
-  margin-inline: auto;
-  text-align: center;
-  margin-block-end: var(--space-l);
 }
 
 .process__heading {
@@ -710,13 +803,7 @@ h3 {
 }
 
 .process-step {
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  border-radius: var(--radius-card);
   padding: var(--space-m) var(--space-l);
-  /* Darker + blurred backing keeps text legible over the busy background photo. */
-  background: rgba(5, 5, 5, 0.6);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
 }
 
 .process-step__title {
@@ -735,14 +822,6 @@ h3 {
 
 .pricing {
   background: var(--colour-bg);
-  padding: var(--space-xl) var(--space-m);
-}
-
-.pricing__intro {
-  max-width: 55ch;
-  margin-inline: auto;
-  text-align: center;
-  margin-block-end: var(--space-l);
 }
 
 .pricing__heading {
@@ -770,8 +849,6 @@ h3 {
 }
 
 .price-table {
-  background: var(--colour-surface);
-  border-radius: var(--radius-card);
   padding: var(--space-l);
 }
 
@@ -831,15 +908,11 @@ h3 {
   background-size: cover;
   background-position: center;
   color: var(--colour-white);
-  padding: var(--space-xl) var(--space-m);
 }
 
 .features__heading {
   font-family: var(--font-display);
   font-size: var(--font-size-h2);
-  text-align: center;
-  max-width: 40ch;
-  margin: 0 auto var(--space-l);
 }
 
 .feature-cards {
@@ -859,13 +932,7 @@ h3 {
 }
 
 .feature-card {
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  border-radius: var(--radius-card);
   padding: var(--space-l);
-  /* Darker + blurred backing keeps text legible over the busy background photo. */
-  background: rgba(5, 5, 5, 0.6);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
 }
 
 .feature-card__title {
@@ -884,14 +951,6 @@ h3 {
 
 .booking {
   background: var(--colour-bg);
-  padding: var(--space-xl) var(--space-m);
-}
-
-.booking__intro {
-  max-width: 55ch;
-  margin-inline: auto;
-  text-align: center;
-  margin-block-end: var(--space-l);
 }
 
 .booking__heading {
@@ -919,8 +978,6 @@ h3 {
 }
 
 .booking-panel {
-  background: var(--colour-surface);
-  border-radius: var(--radius-card);
   padding: var(--space-l);
 }
 
@@ -995,10 +1052,6 @@ h3 {
   font-family: var(--font-body);
   font-size: 0.85rem;
   font-weight: 400;
-}
-
-.contact-block a:not(.button) {
-  color: var(--colour-ink);
 }
 
 /* Page sections follow below, one labelled block each, in page order. */

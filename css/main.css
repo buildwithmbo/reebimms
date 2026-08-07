@@ -200,6 +200,10 @@ a {
   position: relative;
   display: flex;
   align-items: center;
+  /* Pins the burger to the far edge on mobile: the panel is position:
+     absolute there (out of flow), so without this the toggle would sit
+     right next to the logo instead of at the opposite end of the bar. */
+  justify-content: space-between;
   gap: var(--space-m);
   max-width: 1200px;
   margin-inline: auto;
@@ -323,7 +327,8 @@ a {
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--space-m);
+  align-items: center;
+  gap: var(--space-l);
   list-style: none;
   margin: 0;
   padding: 0;
@@ -866,7 +871,6 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1rem;
 }
 
 /*
@@ -981,10 +985,15 @@ a {
   font-weight: 400;
 }
 
+/* nowrap + no shrink: without these the price wraps onto two lines
+   whenever its row's label is long enough to squeeze it (e.g. "Smoke or
+   odour treatment") — the label may still wrap, the price never should. */
 .price-table__row dd {
   margin: 0;
   color: var(--colour-accent);
   font-weight: 700;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .pricing__disclaimer {

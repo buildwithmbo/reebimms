@@ -68,42 +68,59 @@ if (navToggle && navPanel) {
 
 // Before/after comparison sliders: drag, touch, or arrow keys move the
 // divider. Falls back to the CSS default (50/50 split) without JS.
-const setSliderPosition = (container, divider, afterImage, percent) => {
-  const clamped = Math.min(100, Math.max(0, percent));
-  divider.style.insetInlineStart = `${clamped}%`;
-  afterImage.style.clipPath = `inset(0 0 0 ${clamped}%)`;
-  divider.setAttribute('aria-valuenow', String(Math.round(clamped)));
-};
-
+//
+// The divider/handle's on-screen position is clamped a little inside the
+// true 0-100% range so the 36px handle never sits close enough to the
+// container's overflow: hidden edge to get clipped and become
+// ungrabbable (client-reported: swipe fully to one side, then can't grab
+// it again). The underlying image reveal (clip-path) still runs the full
+// true 0-100% — at a true 0/100% split there's no seam to line the
+// divider up with anyway, so decoupling the two costs nothing visually.
 const initBeforeAfter = (container) => {
   const divider = container.querySelector('[data-before-after-divider]');
+  const handle = container.querySelector('.before-after__handle');
   const afterImage = container.querySelector('.before-after__image--after');
-  if (!divider || !afterImage) return;
+  if (!divider || !handle || !afterImage) return;
+
+  const setSliderPosition = (percent) => {
+    const clamped = Math.min(100, Math.max(0, percent));
+    afterImage.style.clipPath = `inset(0 0 0 ${clamped}%)`;
+    divider.setAttribute('aria-valuenow', String(Math.round(clamped)));
+
+    const edgeSafeMargin = (handle.offsetWidth / 2 / container.clientWidth) * 100;
+    const visualPercent = Math.min(100 - edgeSafeMargin, Math.max(edgeSafeMargin, clamped));
+    divider.style.insetInlineStart = `${visualPercent}%`;
+  };
 
   const moveToClientX = (clientX) => {
     const rect = container.getBoundingClientRect();
     const percent = ((clientX - rect.left) / rect.width) * 100;
-    setSliderPosition(container, divider, afterImage, percent);
-  };
-
-  const onPointerMove = (event) => moveToClientX(event.clientX);
-  const stopDragging = () => {
-    document.removeEventListener('pointermove', onPointerMove);
-    document.removeEventListener('pointerup', stopDragging);
+    setSliderPosition(percent);
   };
 
   divider.addEventListener('pointerdown', (event) => {
     event.preventDefault();
-    document.addEventListener('pointermove', onPointerMove);
-    document.addEventListener('pointerup', stopDragging);
+    divider.setPointerCapture(event.pointerId);
   });
+
+  divider.addEventListener('pointermove', (event) => {
+    if (!divider.hasPointerCapture(event.pointerId)) return;
+    moveToClientX(event.clientX);
+  });
+
+  const stopDragging = (event) => {
+    if (divider.hasPointerCapture(event.pointerId)) divider.releasePointerCapture(event.pointerId);
+  };
+
+  divider.addEventListener('pointerup', stopDragging);
+  divider.addEventListener('pointercancel', stopDragging);
 
   divider.addEventListener('keydown', (event) => {
     const current = Number(divider.getAttribute('aria-valuenow'));
     if (event.key === 'ArrowLeft') {
-      setSliderPosition(container, divider, afterImage, current - 5);
+      setSliderPosition(current - 5);
     } else if (event.key === 'ArrowRight') {
-      setSliderPosition(container, divider, afterImage, current + 5);
+      setSliderPosition(current + 5);
     } else {
       return;
     }

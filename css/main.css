@@ -850,6 +850,38 @@ a {
   clip-path: inset(0 0 0 50%);
 }
 
+/* Fixed corner labels, independent of the divider — a client-requested
+   cue so it's unambiguous which side is which without having to first
+   understand the drag interaction. pointer-events: none keeps them out
+   of the divider's drag hit-testing regardless of stacking order. */
+.before-after__label {
+  position: absolute;
+  inset-block-start: var(--space-s);
+  background: rgba(5, 5, 5, 0.6);
+  color: var(--colour-white);
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-pill);
+  pointer-events: none;
+}
+
+.before-after__label--before {
+  inset-inline-start: var(--space-s);
+}
+
+.before-after__label--after {
+  inset-inline-end: var(--space-s);
+}
+
+/* inset-inline-start: 50% is the no-JS/initial-paint default only. With
+   JS active, initBeforeAfter() (js/main.js) clamps this element's
+   rendered position a few px inside the true 0-100% range so the handle
+   never sits close enough to this container's overflow: hidden edge to
+   get clipped — the underlying image's clip-path still runs the full
+   true range regardless. */
 .before-after__divider {
   position: absolute;
   inset-block: 0;

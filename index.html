@@ -17,14 +17,22 @@
         <img class="site-header__logo-mark" src="/images/logo-mark.svg" width="28" height="28" alt="" aria-hidden="true">
         Ree Bimms
       </a>
-      <ul class="site-header__links">
-        <li><a class="nav-link" href="#services">Services</a></li>
-        <li><a class="nav-link" href="#gallery">Gallery</a></li>
-        <li><a class="nav-link" href="#process">Process</a></li>
-        <li><a class="nav-link" href="#pricing">Pricing</a></li>
-        <li><a class="nav-link" href="#why-us">Why us</a></li>
-      </ul>
-      <a class="button button--fill site-header__cta" href="#book">Book a clean <span class="button__arrow" aria-hidden="true">&rarr;</span></a>
+      <button class="site-header__toggle" type="button" aria-expanded="false" aria-controls="site-header-panel">
+        <span class="site-header__toggle-bar" aria-hidden="true"></span>
+        <span class="site-header__toggle-bar" aria-hidden="true"></span>
+        <span class="site-header__toggle-bar" aria-hidden="true"></span>
+        <span class="visually-hidden">Menu</span>
+      </button>
+      <div class="site-header__panel" id="site-header-panel">
+        <ul class="site-header__links">
+          <li><a class="nav-link" href="#services">Services</a></li>
+          <li><a class="nav-link" href="#gallery">Gallery</a></li>
+          <li><a class="nav-link" href="#process">Process</a></li>
+          <li><a class="nav-link" href="#pricing">Pricing</a></li>
+          <li><a class="nav-link" href="#why-us">Why us</a></li>
+        </ul>
+        <a class="button button--fill site-header__cta" href="#book">Book a clean <span class="button__arrow" aria-hidden="true">&rarr;</span></a>
+      </div>
     </nav>
   </header>
 
@@ -261,7 +269,7 @@
           <div class="contact-block">
             <h3 class="contact-block__title">Call us directly</h3>
             <p>Prefer to talk to a human right away?</p>
-            <p>Call us: <a class="text-link" href="tel:+447709876567">07709 876567</a><br>Operating hours: Mon&ndash;Sat, 8:00 AM &ndash; 6:00 PM</p>
+            <p>Call us: <strong><a class="text-link" href="tel:+447709876567">07709 876567</a></strong><br><strong>Operating hours: Mon&ndash;Sat, 8:00 AM &ndash; 6:00 PM</strong></p>
           </div>
         </div>
       </div>

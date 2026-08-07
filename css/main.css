@@ -197,6 +197,7 @@ a {
 }
 
 .site-header__nav {
+  position: relative;
   display: flex;
   align-items: center;
   gap: var(--space-m);
@@ -220,32 +221,119 @@ a {
   color: var(--colour-white);
 }
 
-/* Fills the space between logo and CTA; scrolls horizontally once the
-   five links don't fit, with a right-edge fade signalling there's more
-   — CSS-only, so the affordance works without JS. */
+/* Burger toggle: hidden until JS confirms it can drive the panel (see
+   .js on <html>, js/main.js) — a button that does nothing is worse than
+   no button. Hidden again at 700px+, where the bar has room for the
+   links and CTA inline instead. Both rules re-declared inside the
+   min-width query at the same `.js …` specificity so they win on source
+   order rather than losing to the mobile rule below them. */
+.site-header__toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: none;
+  background: transparent;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.js .site-header__toggle {
+  display: inline-flex;
+}
+
+@media (min-width: 700px) {
+  .js .site-header__toggle {
+    display: none;
+  }
+}
+
+.site-header__toggle-bar {
+  width: 1.25rem;
+  height: 1.5px;
+  background: var(--colour-white);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .site-header__toggle-bar {
+    transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
+  }
+}
+
+/* Open state driven entirely by aria-expanded — one source of truth for
+   assistive tech and the visuals, no separate JS-managed class. */
+.site-header__toggle[aria-expanded="true"] .site-header__toggle-bar:nth-child(1) {
+  transform: translateY(6.5px) rotate(45deg);
+}
+
+.site-header__toggle[aria-expanded="true"] .site-header__toggle-bar:nth-child(2) {
+  opacity: 0;
+}
+
+.site-header__toggle[aria-expanded="true"] .site-header__toggle-bar:nth-child(3) {
+  transform: translateY(-6.5px) rotate(-45deg);
+}
+
+/* Panel: visible by default so the menu still works with JS disabled
+   (see CLAUDE.md progressive enhancement rule) — .js collapses it, the
+   toggle's aria-expanded state reopens it. Becomes the plain inline bar
+   again at 700px+, regardless of JS or open state. */
+.site-header__panel {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-l);
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: 100%;
+  background: var(--colour-bg-near-black);
+  padding: var(--space-l) var(--space-m);
+  border-block-start: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.js .site-header__panel {
+  display: none;
+}
+
+.js .site-header__toggle[aria-expanded="true"] ~ .site-header__panel {
+  display: flex;
+}
+
+@media (min-width: 700px) {
+  .site-header__panel,
+  .js .site-header__panel {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: static;
+    background: none;
+    padding: 0;
+    border: none;
+    flex: 1;
+    min-width: 0;
+  }
+}
+
 .site-header__links {
   flex: 1;
   min-width: 0;
   display: flex;
-  gap: var(--space-l);
+  flex-direction: column;
+  gap: var(--space-m);
   list-style: none;
   margin: 0;
   padding: 0;
-  overflow-x: auto;
-  scrollbar-width: none;
-  -webkit-mask-image: linear-gradient(to right, black calc(100% - 2rem), transparent 100%);
-  mask-image: linear-gradient(to right, black calc(100% - 2rem), transparent 100%);
-}
-
-.site-header__links::-webkit-scrollbar {
-  display: none;
 }
 
 @media (min-width: 700px) {
   .site-header__links {
-    overflow-x: visible;
-    -webkit-mask-image: none;
-    mask-image: none;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-l);
   }
 }
 
@@ -415,14 +503,17 @@ a {
   margin-inline-start: var(--space-s);
 }
 
-/* .button--fill defaults to full-width for form contexts; the header
-   CTA should size to its own label instead — must be declared after
-   .button--fill to win the cascade (see .hero__cta for the same fix). */
-.site-header__cta {
-  flex-shrink: 0;
-  width: fit-content;
-  padding: 0.5rem 1.25rem;
-  font-size: 0.75rem;
+/* Full-width like any other .button--fill while it sits in the mobile
+   burger panel — bigger tap target, consistent with the rest of the
+   site. Sized to its own label only once it's back in the inline
+   700px+ bar, where full-width would stretch across the header. */
+@media (min-width: 700px) {
+  .site-header__cta {
+    flex-shrink: 0;
+    width: fit-content;
+    padding: 0.5rem 1.25rem;
+    font-size: 0.75rem;
+  }
 }
 
 /*
@@ -639,7 +730,13 @@ a {
   flex-direction: column;
 }
 
+/* order: -1 puts the image first regardless of DOM order, so all four
+   cards lead with a photo on mobile — matches the two `--reverse` cards,
+   which already had the image first in markup. Reset at 500px+, where
+   flex-direction: row/row-reverse (below) takes over and DOM order is
+   what alternates which side the photo sits on. */
 .service-card__image {
+  order: -1;
   width: 100%;
   height: 220px;
   object-fit: cover;
@@ -662,6 +759,7 @@ a {
   }
 
   .service-card__image {
+    order: 0;
     width: 45%;
     height: auto;
   }

@@ -36,6 +36,36 @@ if (siteHeader && hero) {
   new IntersectionObserver(onHeroIntersect, { threshold: 0 }).observe(hero);
 }
 
+// Mobile burger menu: aria-expanded on the toggle is the one source of
+// truth — CSS reads it directly (see .site-header__toggle in main.css),
+// so this only ever flips that attribute, never a separate class.
+const navToggle = document.querySelector('.site-header__toggle');
+const navPanel = document.querySelector('.site-header__panel');
+
+if (navToggle && navPanel) {
+  const closeNav = () => navToggle.setAttribute('aria-expanded', 'false');
+
+  navToggle.addEventListener('click', () => {
+    const isOpen = navToggle.getAttribute('aria-expanded') === 'true';
+    navToggle.setAttribute('aria-expanded', String(!isOpen));
+  });
+
+  navPanel.addEventListener('click', (event) => {
+    if (event.target.closest('a')) closeNav();
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape') return;
+    closeNav();
+    navToggle.focus();
+  });
+
+  document.addEventListener('click', (event) => {
+    const clickedInside = navToggle.contains(event.target) || navPanel.contains(event.target);
+    if (!clickedInside) closeNav();
+  });
+}
+
 // Before/after comparison sliders: drag, touch, or arrow keys move the
 // divider. Falls back to the CSS default (50/50 split) without JS.
 const setSliderPosition = (container, divider, afterImage, percent) => {

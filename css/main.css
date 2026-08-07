@@ -862,9 +862,15 @@ a {
   justify-content: center;
 }
 
+/* flex-shrink: 0 — without it the browser squeezes this down to fit its
+   SVG content (~20px) instead of the declared 36px, because it's a flex
+   child of the 3px-wide .before-after__divider. That collapsed the drag
+   target into a thin sliver everywhere, worst at the clipped edges
+   (client-reported: dragging fully to one side made it ungrabbable). */
 .before-after__handle {
   width: 36px;
   height: 36px;
+  flex-shrink: 0;
   border-radius: 50%;
   background: var(--colour-white);
   color: var(--colour-ink);

@@ -196,6 +196,17 @@ a {
   pointer-events: auto;
 }
 
+/* Pages with no hero (privacy) have nothing for the reveal to key off,
+   so the bar is permanently visible there — and sticky rather than
+   fixed, so it takes up layout space and the page below needs no
+   compensating top padding. */
+.site-header--pinned {
+  position: sticky;
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
 .site-header__nav {
   position: relative;
   display: flex;
@@ -361,6 +372,9 @@ a {
   background: var(--gradient-navy-accent);
   color: var(--colour-white);
   padding: var(--space-xl) var(--space-m) var(--space-l);
+  /* Footer is the Contact nav link's target — same header clearance the
+     .section utility gives every other jump target. */
+  scroll-margin-block-start: var(--space-xl);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -384,6 +398,16 @@ a {
   letter-spacing: 0.05em;
   text-transform: uppercase;
   margin-block-end: var(--space-s);
+}
+
+/* Companies Act trading disclosure — a limited company has to show its
+   registered name, number, place of registration, and office address on
+   the site, so it lives in the footer and appears on every page. Fine
+   print by intent: legally required, but not what anyone came to read. */
+.site-footer__legal {
+  max-width: 55ch;
+  font-size: 0.8rem;
+  color: var(--colour-surface);
 }
 
 .site-footer__instagram-icon {
@@ -561,6 +585,94 @@ a {
    (~2.6:1), so plain .text-link keeps the ink colour there instead. */
 .text-link--on-dark {
   color: var(--colour-accent);
+}
+
+/*
+|| COOKIE NOTICE (sitewide)
+*/
+
+.cookie-notice {
+  position: fixed;
+  inset-block-end: 0;
+  inset-inline: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-m);
+  padding: var(--space-m);
+  background: var(--colour-bg-near-black);
+  border-block-start: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--colour-white);
+  font-size: 0.85rem;
+}
+
+@media (min-width: 600px) {
+  .cookie-notice {
+    flex-direction: row;
+    justify-content: center;
+    gap: var(--space-l);
+    padding-inline: var(--space-l);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .cookie-notice {
+    animation: cookie-notice-rise 0.4s ease-out;
+  }
+
+  @keyframes cookie-notice-rise {
+    from {
+      translate: 0 100%;
+    }
+  }
+}
+
+.cookie-notice__text {
+  max-width: var(--measure);
+  text-align: center;
+}
+
+@media (min-width: 600px) {
+  .cookie-notice__text {
+    text-align: start;
+  }
+}
+
+.cookie-notice__actions {
+  display: flex;
+  gap: var(--space-m);
+  flex-shrink: 0;
+}
+
+/* Accept and Decline carry equal visual weight by design — a
+   de-emphasised Decline is a dark pattern (see DESIGN.md #24). */
+.cookie-notice__actions .button {
+  width: fit-content;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.75rem;
+}
+
+.cookie-notice__actions .button--outline {
+  border-color: var(--colour-white);
+  color: var(--colour-white);
+}
+
+.cookie-notice__actions .button--outline:hover {
+  background: var(--colour-white);
+  color: var(--colour-bg-near-black);
+}
+
+/* Footer "Cookies" control — a button because it reopens the notice
+   rather than navigating, styled to sit inline with the links beside it. */
+.cookie-settings {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  cursor: pointer;
 }
 
 /*
@@ -1160,12 +1272,36 @@ a {
   font-size: 0.9rem;
 }
 
-.booking-form__field input {
+.booking-form__field input,
+.booking-form__field select {
   border: 1px solid rgba(14, 67, 119, 0.35);
   border-radius: 6px;
   padding: 0.65rem 0.75rem;
   background: var(--colour-bg);
   font-size: 1rem;
+}
+
+/* Native select chrome differs per OS, so the arrow is drawn here to
+   match the text inputs' height and border on every browser. */
+.booking-form__field select {
+  appearance: none;
+  padding-inline-end: 2.25rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230e4377' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1rem;
+  color: var(--colour-ink);
+  font-family: var(--font-body);
+}
+
+/* Spam trap — off-screen rather than display: none, which some bots
+   skip. Never focusable: the input carries tabindex="-1". */
+.booking-form__trap {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
 }
 
 .booking-form__privacy {
@@ -1197,6 +1333,43 @@ a {
   font-family: var(--font-body);
   font-size: 0.85rem;
   font-weight: 400;
+}
+
+/*
+|| LEGAL PAGE (privacy)
+*/
+
+.legal {
+  max-width: var(--measure);
+  margin-inline: auto;
+  color: var(--colour-ink);
+}
+
+.legal__heading {
+  font-family: var(--font-display);
+  font-size: var(--font-size-h2);
+  margin-block-end: var(--space-m);
+}
+
+.legal__updated {
+  color: var(--colour-muted);
+  font-size: 0.85rem;
+  margin-block-end: var(--space-l);
+}
+
+.legal__section-heading {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  margin-block: var(--space-l) var(--space-s);
+}
+
+.legal p,
+.legal ul {
+  margin-block-end: var(--space-m);
+}
+
+.legal ul {
+  padding-inline-start: var(--space-l);
 }
 
 /* Page sections follow below, one labelled block each, in page order. */

@@ -1,6 +1,10 @@
+import initCookieNotice from '/js/cookie-notice.js';
+
 // Flag JS availability so CSS can opt into enhancement (progressive
 // enhancement: without this class, .reveal content is fully visible).
 document.documentElement.classList.add('js');
+
+initCookieNotice();
 
 const revealTargets = document.querySelectorAll('.reveal');
 
@@ -132,22 +136,55 @@ for (const container of document.querySelectorAll('[data-before-after]')) {
   initBeforeAfter(container);
 }
 
-// Booking form: no submission handler exists yet (see DESIGN.md,
-// Booking section). Validate client-side and point Gloria at the two
-// working contact methods instead of pretending this succeeded.
+// Booking form: posts to booking.php, which emails the details on. The
+// form's own action/method handle this without JS; this only upgrades it
+// to an inline response so Gloria never loses her place on the page.
+// Success is shown only on a confirmed ok response — never optimistically.
 const bookingForm = document.querySelector('[data-booking-form]');
+
+const UNREACHABLE_MESSAGE =
+  "Sorry, we couldn't send that just now. Please call 07709 876567, or use WhatsApp or SMS beside this form, and we'll book you in.";
+
+const sendBooking = async (form) => {
+  const response = await fetch(form.action, {
+    method: 'POST',
+    headers: { Accept: 'application/json' },
+    body: new FormData(form),
+  });
+  return response.json();
+};
 
 if (bookingForm) {
   const statusMessage = bookingForm.querySelector('[data-booking-status]');
+  const submitButton = bookingForm.querySelector('[type="submit"]');
+  const elapsedField = bookingForm.querySelector('[data-elapsed]');
+  const openedAt = Date.now();
 
-  bookingForm.addEventListener('submit', (event) => {
+  const showStatus = (text) => {
+    statusMessage.textContent = text;
+    statusMessage.hidden = false;
+  };
+
+  bookingForm.addEventListener('submit', async (event) => {
     event.preventDefault();
     if (!bookingForm.checkValidity()) {
       bookingForm.reportValidity();
       return;
     }
-    statusMessage.textContent =
-      "Online booking isn't live yet — call 07709 876567 or use WhatsApp/SMS on the right and we'll sort your booking directly.";
-    statusMessage.hidden = false;
+
+    // Spam signal for booking.php — see MIN_FILL_MILLISECONDS there.
+    elapsedField.value = String(Date.now() - openedAt);
+    submitButton.disabled = true;
+    showStatus('Sending your details…');
+
+    try {
+      const result = await sendBooking(bookingForm);
+      showStatus(result.message || UNREACHABLE_MESSAGE);
+      if (result.ok) bookingForm.reset();
+    } catch {
+      showStatus(UNREACHABLE_MESSAGE);
+    } finally {
+      submitButton.disabled = false;
+    }
   });
 }

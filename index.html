@@ -30,6 +30,7 @@
           <li><a class="nav-link" href="#process">Process</a></li>
           <li><a class="nav-link" href="#pricing">Pricing</a></li>
           <li><a class="nav-link" href="#why-us">Why us</a></li>
+          <li><a class="nav-link" href="#contact">Contact</a></li>
         </ul>
         <a class="button button--fill site-header__cta" href="#book">Book a clean <span class="button__arrow" aria-hidden="true">&rarr;</span></a>
       </div>
@@ -250,8 +251,7 @@
       </div>
       <div class="booking-panels">
         <div class="booking-panel card card--surface">
-          <!-- [CONFIRM: no submission handler yet — see DESIGN.md Booking section] -->
-          <form class="booking-form" data-booking-form novalidate>
+          <form class="booking-form" action="/booking.php" method="post" data-booking-form novalidate>
             <p class="booking-form__status" data-booking-status role="status" hidden></p>
             <div class="booking-form__row">
               <div class="booking-form__field">
@@ -273,6 +273,22 @@
                 <input id="email" name="email" type="email" autocomplete="email">
               </div>
             </div>
+            <div class="booking-form__field">
+              <label for="service">Type of clean</label>
+              <select id="service" name="service" required>
+                <option value="" selected disabled>Please choose</option>
+                <option value="Exterior Wash">Exterior Wash</option>
+                <option value="Mini Valet">Mini Valet</option>
+                <option value="Full Valet">Full Valet</option>
+                <option value="Family &amp; Pet Deep Clean">Family &amp; Pet Deep Clean</option>
+              </select>
+            </div>
+            <!-- Spam trap: hidden from people, filled in by bots, rejected server-side. -->
+            <div class="booking-form__trap" aria-hidden="true">
+              <label for="website">Leave this field empty</label>
+              <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
+            </div>
+            <input type="hidden" name="elapsed-ms" data-elapsed>
             <button class="button button--fill" type="submit">Submit your details <span class="button__arrow" aria-hidden="true">&rarr;</span></button>
             <p class="booking-form__privacy">We respect your privacy. No spam, ever.</p>
           </form>
@@ -295,15 +311,16 @@
 
   </main>
 
-  <footer class="site-footer">
+  <footer class="site-footer" id="contact">
     <div class="site-footer__col">
       <h2 class="site-footer__heading">Get in touch</h2>
       <p>For customer support, email <a class="text-link text-link--on-dark" href="mailto:support@reebimms.co.uk">support@reebimms.co.uk</a></p>
       <p>Operating hours: Mon&ndash;Sat, 8:00 AM &ndash; 6:00 PM</p>
+      <p class="site-footer__legal">Ree Bimms Cares Ltd is a company registered in England and Wales, company number 16360358. Registered office: 34 Thackeray Road, Bradford BD10 0JN.</p>
     </div>
     <div class="site-footer__bottom">
       <p class="site-footer__copyright">&copy; 2026 Ree Bimms</p>
-      <p class="site-footer__credit">Site by <a class="text-link text-link--on-dark" href="https://blkswan.co.uk/">BLKSWAN</a> &middot; <a class="text-link text-link--on-dark" href="/privacy">Privacy</a></p>
+      <p class="site-footer__credit">Site by <a class="text-link text-link--on-dark" href="https://blkswan.co.uk/">BLKSWAN</a> &middot; <a class="text-link text-link--on-dark" href="/privacy/">Privacy</a></p>
       <a class="site-footer__instagram-icon" href="https://instagram.com/reebimms" aria-label="Ree Bimms on Instagram">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/>

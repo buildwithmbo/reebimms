@@ -1,8 +1,12 @@
 ---
 deployment:
   tasks:
-    # Replace USERNAME with the cPanel account name before first deploy.
-    # Internal docs, QA tooling, and screenshots stay out of public_html.
-    - export DEPLOYPATH=/home/USERNAME/public_html
+    # Document root for reebimms.co.uk. Not public_html — this account
+    # serves the domain from its own directory.
+    - export DEPLOYPATH=/home/owd56kmtfer3/reebimms.co.uk
+    # Internal docs, QA tooling, and screenshots stay out of the web root.
+    # cp merges into existing directories, so re-running is safe — but it
+    # never deletes, so a file removed from the repo must be removed from
+    # the server by hand.
     - /bin/cp -R index.html 404.html booking.php robots.txt sitemap.xml .htaccess $DEPLOYPATH
     - /bin/cp -R css js images privacy $DEPLOYPATH

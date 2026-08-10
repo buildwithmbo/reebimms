@@ -49,6 +49,9 @@ p {
   --colour-bg-near-black: #050505;
   --colour-bg-navy: #16375a;
   --colour-accent: #48aadb;
+  /* Same blue darkened to 36% lightness — the bright accent is only
+     2.3:1 on --colour-surface, so accent *text* on light uses this. */
+  --colour-accent-ink: #1e7099;
   --colour-surface: #f0f0f0;
   /* Darker than the sampled #c3c3c3 — that value fails contrast on white for body text. */
   --colour-muted: #6b6b6b;
@@ -893,7 +896,7 @@ a {
 }
 
 .service-card__price {
-  color: var(--colour-accent);
+  color: var(--colour-accent-ink);
   font-weight: 700;
 }
 
@@ -1140,7 +1143,7 @@ a {
    odour treatment") — the label may still wrap, the price never should. */
 .price-table__row dd {
   margin: 0;
-  color: var(--colour-accent);
+  color: var(--colour-accent-ink);
   font-weight: 700;
   white-space: nowrap;
   flex-shrink: 0;
@@ -1329,7 +1332,7 @@ a {
 }
 
 .contact-block__tag {
-  color: var(--colour-accent);
+  color: var(--colour-accent-ink);
   font-family: var(--font-body);
   font-size: 0.85rem;
   font-weight: 400;

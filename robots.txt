@@ -1,3 +1,5 @@
 User-agent: *
 Allow: /
 Disallow: /booking.php
+
+Sitemap: https://www.reebimms.co.uk/sitemap.xml

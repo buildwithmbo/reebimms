@@ -1,0 +1,8 @@
+---
+deployment:
+  tasks:
+    # Replace USERNAME with the cPanel account name before first deploy.
+    # Internal docs, QA tooling, and screenshots stay out of public_html.
+    - export DEPLOYPATH=/home/USERNAME/public_html
+    - /bin/cp -R index.html 404.html booking.php robots.txt sitemap.xml .htaccess $DEPLOYPATH
+    - /bin/cp -R css js images privacy $DEPLOYPATH

@@ -1,0 +1,39 @@
+# ReeBimms — Apache/cPanel configuration.
+# Canonical origin is https://www.reebimms.co.uk.
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Force HTTPS and www in a single hop — http://reebimms.co.uk should
+  # not bounce through two redirects to get to the canonical host.
+  RewriteCond %{HTTPS} !=on [OR]
+  RewriteCond %{HTTP_HOST} !^www\. [NC]
+  RewriteRule ^ https://www.reebimms.co.uk%{REQUEST_URI} [R=301,L]
+</IfModule>
+
+ErrorDocument 404 /404.html
+
+# Directory listings off — /images/ should not be browsable.
+Options -Indexes
+
+# Cloudflare compressed and cached at the edge automatically. Apache does
+# neither by default, so both are declared here or the site ships
+# uncompressed.
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml
+  AddOutputFilterByType DEFLATE application/javascript application/json
+  AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# Deliberately moderate lifetimes: there is no build step, so filenames
+# never change when their contents do. A one-year image cache would mean
+# a replaced photo keeps showing the old one to returning visitors for a
+# year. Rename a file when you replace it and these can safely go up.
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/html "access plus 0 seconds"
+  ExpiresByType text/css "access plus 7 days"
+  ExpiresByType application/javascript "access plus 7 days"
+  ExpiresByType image/jpeg "access plus 30 days"
+  ExpiresByType image/svg+xml "access plus 30 days"
+</IfModule>
